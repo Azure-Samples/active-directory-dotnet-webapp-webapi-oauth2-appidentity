@@ -102,13 +102,13 @@ There are two projects in this sample.  Each needs to be separately registered i
 4. Find the app key `ida:ClientId` and replace the value with the Client ID for the TodoListWebApp-AppIdentity from the Azure portal.
 5. Find the app key `ida:AppKey` and replace the value with the key for the TodoListWebApp-AppIdentity from the Azure portal.
 6. If you changed the base URL of the TodoListWebApp sample, find the app key `ida:PostLogoutRedirectUri` and replace the value with the new base URL of the sample.
-7. In `TodoListController` make sure the `todoListBaseAddress` has the correct value for the address of the TodoListService project.
-8. Also in `TodoListController` update the `todoResourceId` to be the App ID URI registered for the TodoListService, for example `https://<your_tenant_name>/TodoListService`.
+7. Find the app key `todo:TodoListBaseAdress` ane make sure it has the correct value for the address of the TodoListService project.
+8. Find the app key `todo:TodoListResourceId` and replace the value with the App ID URI registered for the TodoListService, for example `https://<your_tenant_name>/TodoListService`.
 
 #### Configure the TodoListWebApp as a trusted caller to the TodoListService
 
 1. Go back to the TodoListService project and open the `web.config` file.
-2. Find the app key `ida:TrustedCallerClientId` and replace the value with the Client ID of the TodoListWebApp.  This is used to tell the service to trust the web app.
+2. Find the app key `todo:TrustedCallerClientId` and replace the value with the Client ID of the TodoListWebApp.  This is used to tell the service to trust the web app.
 
 ### Step 5:  Trust the IIS Express SSL certificate
 
@@ -139,7 +139,7 @@ First, in Visual Studio 2013 create an empty solution to host the  projects.  Th
 3. Add a new, empty, Web API 2 controller called `TodoListController`.
 4. Copy the implementation of the TodoListController from this sample into the controller.  Don't forget to add the `[Authorize]` attribute to the class.
 5. In `TodoListController` resolving missing references by adding `using` statements for `System.Collections.Concurrent`, `TodoListService.Models`, `System.Security.Claims`.
-6. In `web.config`, in `<appSettings>`, create a key `ida:TrustedCallerClientId` and set the value accordingly.
+6. In `web.config`, in `<appSettings>`, create a key `todo:TrustedCallerClientId` and set the value accordingly.
 
 ### Creating the TodoListWebApp Project
 
@@ -155,10 +155,11 @@ First, in Visual Studio 2013 create an empty solution to host the  projects.  Th
 10. In the `Views` --> `Shared` folder, replace the contents of `_Layout.cshtml` with the contents of the file of same name from the sample.  Effectively, all this will do is add a single line, `@Html.Partial("_LoginPartial")`, that lights up the previously added `_LoginPartial` view.
 11. Create a new empty controller called `AccountController`.  Replace the implementation with the contents of the file of same name from the sample.
 12. If you want the user to be required to sign-in before they can see any page of the app, then in the `HomeController`, decorate the `HomeController` class with the `[Authorize]` attribute.  If you leave this out, the user will be able to see the home page of the app without having to sign-in first, and can click the sign-in link on that page to get signed in.
-13. In `web.config`, in `<appSettings>`, create keys for `ida:ClientId`, `ida:AppKey`, `ida:AADInstance`, `ida:Tenant`, and `ida:PostLogoutRedirectUri` and set the values accordingly.  For the public Azure AD, the value of `ida:AADInstance` is `https://login.windows.net/{0}`.
-14. In the `Models` folder add a new class called `TodoItem.cs`.  Copy the implementation of TodoItem from this sample into the class.
-17. Add a new empty MVC5 controller TodoListController to the project.  Copy the implementation of the controller from the sample.  Remember to include the [Authorize] attribute on the class definition.
-19. In `Views` --> `TodoList` create a new view, `Index.cshtml`, and copy the implementation from this sample.
-21. In the shared `_Layout` view, add the Action Links for Profile and To Do List that are in the sample.
+13. In the `Models` folder add a new class called `TodoItem.cs`.  Copy the implementation of TodoItem from this sample into the class.
+14. Add a new empty MVC5 controller TodoListController to the project.  Copy the implementation of the controller from the sample.  Remember to include the [Authorize] attribute on the class definition.
+15. In `Views` --> `TodoList` create a new view, `Index.cshtml`, and copy the implementation from this sample.
+16. In the shared `_Layout` view, add the Action Links for Profile and To Do List that are in the sample.
+17. In `web.config`, in `<appSettings>`, create keys for `ida:ClientId`, `ida:AppKey`, `ida:AADInstance`, `ida:Tenant`, and `ida:PostLogoutRedirectUri`, and set the values accordingly.  For the public Azure AD, the value of `ida:AADInstance` is `https://login.windows.net/{0}`.
+18. In `web.config` in `<appSettings>`, create keys for `todo:TodoListResourceId` and `todo:TodoListBaseAddress` and set the values accordinly.
 
 Finally, in the properties of the solution itself, set both projects as startup projects.

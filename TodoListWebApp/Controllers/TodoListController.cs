@@ -1,9 +1,26 @@
-﻿using System;
+﻿//----------------------------------------------------------------------------------------------
+//    Copyright 2014 Microsoft Corporation
+//
+//    Licensed under the Apache License, Version 2.0 (the "License");
+//    you may not use this file except in compliance with the License.
+//    You may obtain a copy of the License at
+//
+//      http://www.apache.org/licenses/LICENSE-2.0
+//
+//    Unless required by applicable law or agreed to in writing, software
+//    distributed under the License is distributed on an "AS IS" BASIS,
+//    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+//    See the License for the specific language governing permissions and
+//    limitations under the License.
+//----------------------------------------------------------------------------------------------
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
+// The following using statements were added for this sample.
 using System.Configuration;
 using System.Threading.Tasks;
 using System.Security.Claims;
@@ -39,8 +56,8 @@ namespace TodoListWebApp.Controllers
         // To authenticate to the To Do list service, the client needs to know the service's App ID URI.
         // To contact the To Do list service we need it's URL as well.
         //
-        const string todoListResourceId = "https://skwantoso.com/TodoListService";
-        const string todoListBaseAddress = "https://localhost:44321";
+        const string todoListResourceId = ConfigurationManager.AppSettings["todo:TodoListResourceId"];
+        const string todoListBaseAddress = ConfigurationManager.AppSettings["todo:TodoListBaseAddress"];
 
         private static HttpClient httpClient = new HttpClient();
         private static AuthenticationContext authContext = new AuthenticationContext(authority);
