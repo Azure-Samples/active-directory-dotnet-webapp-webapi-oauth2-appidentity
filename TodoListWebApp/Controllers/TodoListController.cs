@@ -56,8 +56,8 @@ namespace TodoListWebApp.Controllers
         // To authenticate to the To Do list service, the client needs to know the service's App ID URI.
         // To contact the To Do list service we need it's URL as well.
         //
-        const string todoListResourceId = ConfigurationManager.AppSettings["todo:TodoListResourceId"];
-        const string todoListBaseAddress = ConfigurationManager.AppSettings["todo:TodoListBaseAddress"];
+        private static string todoListResourceId = ConfigurationManager.AppSettings["todo:TodoListResourceId"];
+        private static string todoListBaseAddress = ConfigurationManager.AppSettings["todo:TodoListBaseAddress"];
 
         private static HttpClient httpClient = new HttpClient();
         private static AuthenticationContext authContext = new AuthenticationContext(authority);
