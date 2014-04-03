@@ -116,8 +116,8 @@ namespace TodoListWebApp.Controllers
                 return View(itemList);
             }
 
-            // Retrieve the user's Name Identifier claim, which is used as the key to the To Do list.
-            string ownerId = ClaimsPrincipal.Current.FindFirst(ClaimTypes.NameIdentifier).Value;
+            // Retrieve the user's Object Identifier claim, which is used as the key to the To Do list.
+            string ownerId = ClaimsPrincipal.Current.FindFirst("http://schemas.microsoft.com/identity/claims/objectidentifier").Value;
 
             //
             // Retrieve the user's To Do List.
@@ -209,8 +209,8 @@ namespace TodoListWebApp.Controllers
                     return View(itemList);
                 }
 
-                // Retrieve the user's Name Identifier claim, which is used as the key to the To Do list.
-                string ownerId = ClaimsPrincipal.Current.FindFirst(ClaimTypes.NameIdentifier).Value;
+                // Retrieve the user's Object Identifier claim, which is used as the key to the To Do list.
+                string ownerId = ClaimsPrincipal.Current.FindFirst("http://schemas.microsoft.com/identity/claims/objectidentifier").Value;
 
                 // Forms encode todo item, to POST to the todo list web api.
                 HttpContent content = new FormUrlEncodedContent(new[] { new KeyValuePair<string, string>("Title", item), new KeyValuePair<string, string>("Owner", ownerId) });

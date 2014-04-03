@@ -26,6 +26,7 @@ using System.Collections.Concurrent;
 using TodoListService.Models;
 using System.Security.Claims;
 using System.Configuration;
+using System.Web;
 
 namespace TodoListService.Controllers
 {
@@ -39,12 +40,13 @@ namespace TodoListService.Controllers
         private static string trustedCallerClientId = ConfigurationManager.AppSettings["todo:TrustedCallerClientId"];
 
         // GET api/todolist
-        public IEnumerable<TodoItem> Get(string ownerid)
+        public IEnumerable<TodoItem> Get()
         {
             //
             // If the Owner ID parameter has been set, the caller is trying the trusted sub-system pattern.
             // Verify the caller is trusted, then return the To Do list for the specified Owner ID.
             //
+            string ownerid = HttpContext.Current.Request.QueryString["ownerid"];
             if (ownerid != null)
             {
                 string currentCallerClientId = ClaimsPrincipal.Current.FindFirst("appid").Value;
@@ -74,8 +76,8 @@ namespace TodoListService.Controllers
                 }
             }
 
-            // A user's To Do list is keyed off of the NameIdentifier claim, which contains an immutable, unique identifier for the user.
-            Claim subject = ClaimsPrincipal.Current.FindFirst(ClaimTypes.NameIdentifier);
+            // A user's To Do list is keyed off of the Object Identifier claim, which contains an immutable, unique identifier for the user.
+            Claim subject = ClaimsPrincipal.Current.FindFirst("http://schemas.microsoft.com/identity/claims/objectidentifier");
 
             return from todo in todoBag
                    where todo.Owner == subject.Value
@@ -110,7 +112,7 @@ namespace TodoListService.Controllers
 
             if (null != todo && !string.IsNullOrWhiteSpace(todo.Title))
             {
-                todoBag.Add(new TodoItem { Title = todo.Title, Owner = ClaimsPrincipal.Current.FindFirst(ClaimTypes.NameIdentifier).Value });
+                todoBag.Add(new TodoItem { Title = todo.Title, Owner = ClaimsPrincipal.Current.FindFirst("http://schemas.microsoft.com/identity/claims/objectidentifier").Value });
             }
         }
     }
