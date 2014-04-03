@@ -113,7 +113,7 @@ namespace TodoListWebApp.Controllers
                 TodoItem newItem = new TodoItem();
                 newItem.Title = "(No items in list)";
                 itemList.Add(newItem);
-                return View(newItem);
+                return View(itemList);
             }
 
             // Retrieve the user's Name Identifier claim, which is used as the key to the To Do list.
@@ -159,7 +159,7 @@ namespace TodoListWebApp.Controllers
                 TodoItem newItem = new TodoItem();
                 newItem.Title = "(No items in list)";
                 itemList.Add(newItem);
-                return View(newItem);
+                return View(itemList);
             }
 
         }
@@ -206,7 +206,7 @@ namespace TodoListWebApp.Controllers
                     TodoItem newItem = new TodoItem();
                     newItem.Title = "(No items in list)";
                     itemList.Add(newItem);
-                    return View(newItem);
+                    return View(itemList);
                 }
 
                 // Retrieve the user's Name Identifier claim, which is used as the key to the To Do list.
@@ -244,7 +244,7 @@ namespace TodoListWebApp.Controllers
                     TodoItem newItem = new TodoItem();
                     newItem.Title = "(No items in list)";
                     itemList.Add(newItem);
-                    return View(newItem);
+                    return View(itemList);
                 }
 
             }
