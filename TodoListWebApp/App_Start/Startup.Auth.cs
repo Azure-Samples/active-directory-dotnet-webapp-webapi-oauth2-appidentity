@@ -58,9 +58,9 @@ namespace TodoListWebApp
             app.UseOpenIdConnectAuthentication(
                 new OpenIdConnectAuthenticationOptions
                 {
-                    Client_Id = clientId,
+                    ClientId = clientId,
                     Authority = authority,
-                    Post_Logout_Redirect_Uri = postLogoutRedirectUri,
+                    PostLogoutRedirectUri = postLogoutRedirectUri,
                 });
         }
     }

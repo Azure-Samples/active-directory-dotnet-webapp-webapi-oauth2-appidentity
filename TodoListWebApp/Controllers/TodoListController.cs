@@ -94,7 +94,7 @@ namespace TodoListWebApp.Controllers
                     // ADAL includes an in memory cache, so this call will only send a message to the server if the cached token is expired.
                     result = authContext.AcquireToken(todoListResourceId, clientCredential);
                 }
-                catch (ActiveDirectoryAuthenticationException ex)
+                catch (AdalException ex)
                 {
                     if (ex.ErrorCode == "temporarily_unavailable")
                     {
@@ -151,7 +151,7 @@ namespace TodoListWebApp.Controllers
                 // If the response is Unauthorized, drop the token cache to force getting a new token on the next try.
                 if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
                 {
-                    authContext.TokenCacheStore.Clear();
+                    authContext.TokenCache.Clear();
                 }
 
                 // Handle unexpected errors.
@@ -187,7 +187,7 @@ namespace TodoListWebApp.Controllers
                         // ADAL includes an in memory cache, so this call will only send a message to the server if the cached token is expired.
                         result = authContext.AcquireToken(todoListResourceId, clientCredential);
                     }
-                    catch (ActiveDirectoryAuthenticationException ex)
+                    catch (AdalException ex)
                     {
                         if (ex.ErrorCode == "temporarily_unavailable")
                         {
@@ -236,7 +236,7 @@ namespace TodoListWebApp.Controllers
                     // If the response is Unauthorized, drop the token cache to force getting a new token on the next try.
                     if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
                     {
-                        authContext.TokenCacheStore.Clear();
+                        authContext.TokenCache.Clear();
                     }
 
                     // Handle unexpected errors.
