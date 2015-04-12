@@ -61,6 +61,15 @@ namespace TodoListWebApp
                     ClientId = clientId,
                     Authority = authority,
                     PostLogoutRedirectUri = postLogoutRedirectUri,
+                    Notifications = new OpenIdConnectAuthenticationNotifications
+                    {
+                        AuthenticationFailed = context =>
+                        {
+                            context.HandleResponse();
+                            context.Response.Redirect("/Home/Error");
+                            return Task.FromResult(0);
+                        }
+                    }
                 });
         }
     }
