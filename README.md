@@ -172,7 +172,7 @@ First, in Visual Studio 2013 create an empty solution to host the  projects.  Th
 14. Add a new empty MVC5 controller TodoListController to the project.  Copy the implementation of the controller from the sample.  Remember to include the [Authorize] attribute on the class definition.
 15. In `Views` --> `TodoList` create a new view, `Index.cshtml`, and copy the implementation from this sample.
 16. In the shared `_Layout` view, add the Action Links for Profile and To Do List that are in the sample.
-17. In `web.config`, in `<appSettings>`, create keys for `ida:ClientId`, `ida:AppKey`, `ida:AADInstance`, `ida:Tenant`, and `ida:PostLogoutRedirectUri`, and set the values accordingly.  For the public Azure AD, the value of `ida:AADInstance` is `https://login.windows.net/{0}`.
+17. In `web.config`, in `<appSettings>`, create keys for `ida:ClientId`, `ida:AppKey`, `ida:AADInstance`, `ida:Tenant`, and `ida:PostLogoutRedirectUri`, and set the values accordingly.  For the public Azure AD, the value of `ida:AADInstance` is `https://login.microsoftonline.com/{0}`.
 18. In `web.config` in `<appSettings>`, create keys for `todo:TodoListResourceId` and `todo:TodoListBaseAddress` and set the values accordinly.
 
 Finally, in the properties of the solution itself, set both projects as startup projects.
