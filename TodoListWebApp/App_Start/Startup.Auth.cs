@@ -45,7 +45,7 @@ namespace TodoListWebApp
         private static string appKey = ConfigurationManager.AppSettings["ida:AppKey"];
         private static string aadInstance = ConfigurationManager.AppSettings["ida:AADInstance"];
         private static string tenant = ConfigurationManager.AppSettings["ida:Tenant"];
-        private static string postLogoutRedirectUri = ConfigurationManager.AppSettings["ida:PostLogoutRedirectUri"];
+        private static string redirectUri = ConfigurationManager.AppSettings["ida:RedirectUri"];
 
         string authority = String.Format(CultureInfo.InvariantCulture, aadInstance, tenant);
 
@@ -60,7 +60,8 @@ namespace TodoListWebApp
                 {
                     ClientId = clientId,
                     Authority = authority,
-                    PostLogoutRedirectUri = postLogoutRedirectUri,
+                    RedirectUri = redirectUri,
+                    PostLogoutRedirectUri = redirectUri,
                     Notifications = new OpenIdConnectAuthenticationNotifications
                     {
                         AuthenticationFailed = context =>

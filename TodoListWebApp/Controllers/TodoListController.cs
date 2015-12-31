@@ -92,7 +92,7 @@ namespace TodoListWebApp.Controllers
                 try
                 {
                     // ADAL includes an in memory cache, so this call will only send a message to the server if the cached token is expired.
-                    result = authContext.AcquireToken(todoListResourceId, clientCredential);
+                    result = await authContext.AcquireTokenAsync(todoListResourceId, clientCredential);
                 }
                 catch (AdalException ex)
                 {
@@ -185,7 +185,7 @@ namespace TodoListWebApp.Controllers
                     try
                     {
                         // ADAL includes an in memory cache, so this call will only send a message to the server if the cached token is expired.
-                        result = authContext.AcquireToken(todoListResourceId, clientCredential);
+                        result = await authContext.AcquireTokenAsync(todoListResourceId, clientCredential);
                     }
                     catch (AdalException ex)
                     {
