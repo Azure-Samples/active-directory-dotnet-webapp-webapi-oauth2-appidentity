@@ -10,6 +10,7 @@ namespace TodoListWebApp.Controllers
     {
         public ActionResult Index()
         {
+            ViewBag.Title = "Home Page - TodoListWebApp-AppIdentity";
             return View();
         }
 
