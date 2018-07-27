@@ -10,7 +10,6 @@ namespace TodoListWebApp.Controllers
     {
         public ActionResult Index()
         {
-            ViewBag.Title = "Home Page - TodoListWebApp-AppIdentity";
             return View();
         }
 
@@ -26,11 +25,6 @@ namespace TodoListWebApp.Controllers
             ViewBag.Message = "Your contact page.";
 
             return View();
-        }
-
-        public ActionResult Error()
-        {
-            return View("Error");
         }
     }
 }
