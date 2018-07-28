@@ -77,35 +77,6 @@ namespace TodoListWebApp
                         }
                     }
                 });
-
-            //app.UseOpenIdConnectAuthentication(
-            //    new OpenIdConnectAuthenticationOptions
-            //    {
-            //        ClientId = clientId,
-            //        Authority = this.authority,
-            //        // RedirectUri = redirectUri,
-            //        PostLogoutRedirectUri = redirectUri,
-            //        Notifications = new OpenIdConnectAuthenticationNotifications
-            //        {
-            //            // If there is a code in the OpenID Connect response, redeem it for an access token and refresh token, and store those away.
-            //            AuthorizationCodeReceived = (context) =>
-            //            {
-            //                var code = context.Code;
-            //                ClientCredential credential = new ClientCredential(clientId, appKey);
-            //                AuthenticationContext authContext = new AuthenticationContext(this.authority, new FileCache());
-            //                AuthenticationResult result = authContext.AcquireTokenByAuthorizationCodeAsync(
-            //                    code, new Uri(HttpContext.Current.Request.Url.GetLeftPart(UriPartial.Path)), credential, todoListResourceId).Result;
-
-            //                return Task.FromResult(0);
-            //            },
-            //            AuthenticationFailed = context =>
-            //            {
-            //                context.HandleResponse();
-            //                context.Response.Redirect("/Home/Error?error=" + HttpUtility.UrlEncode(context.Exception.Message));
-            //                return Task.FromResult(0);
-            //            }
-            //        }
-            //    });
         }
     }
 }
