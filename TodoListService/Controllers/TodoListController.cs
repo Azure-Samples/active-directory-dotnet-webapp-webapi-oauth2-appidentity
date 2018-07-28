@@ -22,7 +22,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Configuration;
@@ -42,12 +41,26 @@ namespace TodoListService.Controllers
         //
         // To Do items list for all users.  Since the list is stored in memory, it will go away if the service is cycled.
         //
-        static ConcurrentBag<TodoItem> todoBag = new ConcurrentBag<TodoItem>();
+        private static ConcurrentBag<TodoItem> todoBag = new ConcurrentBag<TodoItem>();
+
         private static string trustedCallerClientId = ConfigurationManager.AppSettings["todo:TrustedCallerClientId"];
 
         // GET api/todolist
         public IEnumerable<TodoItem> Get()
         {
+            //
+            // The Scope claim tells you what permissions the client application has in the service.
+            // In this case we look for a scope value of user_impersonation, or full access to the service as the user.
+            //
+            Claim scopeClaim = ClaimsPrincipal.Current.FindFirst("http://schemas.microsoft.com/identity/claims/scope");
+            if (scopeClaim != null)
+            {
+                if (scopeClaim.Value != "user_impersonation")
+                {
+                    throw new HttpResponseException(new HttpResponseMessage { StatusCode = HttpStatusCode.Unauthorized, ReasonPhrase = "The Scope claim does not contain 'user_impersonation' or scope claim not found" });
+                }
+            }
+
             //
             // If the Owner ID parameter has been set, the caller is trying the trusted sub-system pattern.
             // Verify the caller is trusted, then return the To Do list for the specified Owner ID.
@@ -65,20 +78,7 @@ namespace TodoListService.Controllers
                 else
                 {
                     throw new HttpResponseException(
-                        new HttpResponseMessage { StatusCode = HttpStatusCode.Unauthorized, ReasonPhrase = "Only trusted callers can return any user's To Do List.  Caller's OID:" + currentCallerClientId });
-                }
-            }
-
-            //
-            // The Scope claim tells you what permissions the client application has in the service.
-            // In this case we look for a scope value of user_impersonation, or full access to the service as the user.
-            //
-            Claim scopeClaim = ClaimsPrincipal.Current.FindFirst("http://schemas.microsoft.com/identity/claims/scope");
-            if (scopeClaim != null)
-            {
-                if (scopeClaim.Value != "user_impersonation")
-                {
-                    throw new HttpResponseException(new HttpResponseMessage { StatusCode = HttpStatusCode.Unauthorized, ReasonPhrase = "The Scope claim does not contain 'user_impersonation' or scope claim not found" });
+                        new HttpResponseMessage { StatusCode = HttpStatusCode.Unauthorized, ReasonPhrase = "Only trusted callers can return any user's To-Do List.  Caller's OID:" + currentCallerClientId });
                 }
             }
 
@@ -93,6 +93,15 @@ namespace TodoListService.Controllers
         // POST api/todolist
         public void Post(TodoItem todo)
         {
+            Claim scopeClaim = ClaimsPrincipal.Current.FindFirst("http://schemas.microsoft.com/identity/claims/scope");
+            if (scopeClaim != null)
+            {
+                if (scopeClaim.Value != "user_impersonation")
+                {
+                    throw new HttpResponseException(new HttpResponseMessage { StatusCode = HttpStatusCode.Unauthorized, ReasonPhrase = "The Scope claim does not contain 'user_impersonation' or scope claim not found" });
+                }
+            }
+
             //
             // If the caller is the trusted caller, then add the To Do item to owner's To Do list as specified in the posted item.
             //
@@ -104,15 +113,6 @@ namespace TodoListService.Controllers
                 {
                     todoBag.Add(new TodoItem { Title = todo.Title, Owner = todo.Owner });
                     return;
-                }
-            }
-
-            Claim scopeClaim = ClaimsPrincipal.Current.FindFirst("http://schemas.microsoft.com/identity/claims/scope");
-            if (scopeClaim != null)
-            {
-                if (scopeClaim.Value != "user_impersonation")
-                {
-                    throw new HttpResponseException(new HttpResponseMessage { StatusCode = HttpStatusCode.Unauthorized, ReasonPhrase = "The Scope claim does not contain 'user_impersonation' or scope claim not found" });
                 }
             }
 

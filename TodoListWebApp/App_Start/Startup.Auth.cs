@@ -27,12 +27,16 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Globalization;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
+using System.Web.Mvc;
+using Microsoft.IdentityModel.Clients.ActiveDirectory;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.OpenIdConnect;
 using Owin;
+using TodoListWebApp.Models;
 
 namespace TodoListWebApp
 {
@@ -40,13 +44,11 @@ namespace TodoListWebApp
     {
         //
         // The ClientID is used by the application to uniquely identify itself to Azure AD.
-        // The AppKey is a credential used to authenticate the application to Azure AD.  Azure AD supports password and certificate credentials.
         // The AADInstance is the instance of Azure, for example public Azure or Azure China.
         // The Authority is the sign-in URL of the tenant.
         // The RedirectUri is the URL where the user will be redirected after they sign out.
         //
         private static string clientId = ConfigurationManager.AppSettings["ida:ClientId"];
-        private static string appKey = ConfigurationManager.AppSettings["ida:AppKey"];
         private static string aadInstance = ConfigurationManager.AppSettings["ida:AADInstance"];
         private static string tenant = ConfigurationManager.AppSettings["ida:Tenant"];
         private static string redirectUri = ConfigurationManager.AppSettings["ida:RedirectUri"];
@@ -64,18 +66,46 @@ namespace TodoListWebApp
                 {
                     ClientId = clientId,
                     Authority = this.authority,
-                    RedirectUri = redirectUri,
                     PostLogoutRedirectUri = redirectUri,
                     Notifications = new OpenIdConnectAuthenticationNotifications
                     {
                         AuthenticationFailed = context =>
                         {
                             context.HandleResponse();
-                            context.Response.Redirect("/Home/Error");
+                            context.Response.Redirect("/Home/Error?error=" + HttpUtility.UrlEncode(context.Exception.Message));
                             return Task.FromResult(0);
                         }
                     }
                 });
+
+            //app.UseOpenIdConnectAuthentication(
+            //    new OpenIdConnectAuthenticationOptions
+            //    {
+            //        ClientId = clientId,
+            //        Authority = this.authority,
+            //        // RedirectUri = redirectUri,
+            //        PostLogoutRedirectUri = redirectUri,
+            //        Notifications = new OpenIdConnectAuthenticationNotifications
+            //        {
+            //            // If there is a code in the OpenID Connect response, redeem it for an access token and refresh token, and store those away.
+            //            AuthorizationCodeReceived = (context) =>
+            //            {
+            //                var code = context.Code;
+            //                ClientCredential credential = new ClientCredential(clientId, appKey);
+            //                AuthenticationContext authContext = new AuthenticationContext(this.authority, new FileCache());
+            //                AuthenticationResult result = authContext.AcquireTokenByAuthorizationCodeAsync(
+            //                    code, new Uri(HttpContext.Current.Request.Url.GetLeftPart(UriPartial.Path)), credential, todoListResourceId).Result;
+
+            //                return Task.FromResult(0);
+            //            },
+            //            AuthenticationFailed = context =>
+            //            {
+            //                context.HandleResponse();
+            //                context.Response.Redirect("/Home/Error?error=" + HttpUtility.UrlEncode(context.Exception.Message));
+            //                return Task.FromResult(0);
+            //            }
+            //        }
+            //    });
         }
     }
 }

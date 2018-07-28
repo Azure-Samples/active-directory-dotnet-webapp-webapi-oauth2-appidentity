@@ -153,7 +153,7 @@ First, in Visual Studio 2017 create an empty solution to host the  projects.  Th
 1. Copy the implementation of the **TodoListController.cs** from this sample into the newly created controller.  Don't forget to add the `[Authorize]` attribute to the class.
 1. In `TodoListController` resolving missing references as suggested by Visual Studio.
 1. In `Web.config`, in `<appSettings>`, create a key `todo:TrustedCallerClientId` and set the value to the clientId (AppId) of the **TodoListWebApp** from the Azure portal.
-1. Add the following ASP.Net OWIN middleware NuGets: **Microsoft.Owin.Security.ActiveDirectory**, **System.IdentityModel.Tokens.Jwt** and **Microsoft.Owin.Host.SystemWeb**.
+1. Add the following ASP.Net OWIN middleware NuGets: **Microsoft.Owin.Security.ActiveDirectory**, **System.IdentityModel.Tokens.Jwt**, **Microsoft.IdentityModel.Protocols.WsFederation** and **Microsoft.Owin.Host.SystemWeb**.
 1. In the `App_Start` folder, create a class `Startup.Auth.cs`.  You will need to remove `.App_Start` from the namespace name.  Replace the code for the `Startup` class with the code from the same file of the sample app.  Be sure to take the whole class definition!  The definition changes from `public class Startup` to `public partial class Startup`.
 1. Right-click on the project, select Add,  select "OWIN Startup class", and name the class "Startup".  If "OWIN Startup Class" doesn't appear in the menu, instead select "Class", and in the search box enter "OWIN".  "OWIN Startup class" will appear as a selection; select it, and name the class `Startup.cs`.
 1. In `Startup.cs`, replace the code for the `Startup` class with the code from the same file of the sample app.  Again, note the definition changes from `public class Startup` to `public partial class Startup`.
@@ -165,6 +165,7 @@ First, in Visual Studio 2017 create an empty solution to host the  projects.  Th
 1. In the project properties, Web properties, set the Project Url to be the SSL URL.
 1. Add the following ASP.Net OWIN middleware NuGets: **System.IdentityModel.Tokens.Jwt**, **Microsoft.Owin.Security.OpenIdConnect**, **Microsoft.Owin.Security.Cookies** and **Microsoft.Owin.Host.SystemWeb**.
 1. Add the Active Directory Authentication Library NuGet (`Microsoft.IdentityModel.Clients.ActiveDirectory`).
+1. Add a reference for assembly **System.Security**.
 1. In the `App_Start` folder, create a class `Startup.Auth.cs`.  You will need to remove `.App_Start` from the namespace name.  Replace the code for the `Startup` class with the code from the same file of the sample app.  Be sure to take the whole class definition!  The definition changes from `public class Startup` to `public partial class Startup`.
 1. Right-click on the project, select Add,  select "OWIN Startup class", and name the class "Startup".  If "OWIN Startup Class" doesn't appear in the menu, instead select "Class", and in the search box enter "OWIN".  "OWIN Startup class" will appear as a selection; select it, and name the class `Startup.cs`.
 1. In `Startup.cs`, replace the code for the `Startup` class with the code from the same file of the sample app.  Again, note the definition changes from `public class Startup` to `public partial class Startup`.
@@ -173,6 +174,7 @@ First, in Visual Studio 2017 create an empty solution to host the  projects.  Th
 1. Create a new **MVC 5 Controller - Empty** named `AccountController`.  Replace the implementation with the contents of the file of same name from the sample.
 1. If you want the user to be required to sign-in before they can see any page of the app, then in the `HomeController`, decorate the `HomeController` class with the `[Authorize]` attribute.  If you leave this out, the user will be able to see the home page of the app without having to sign-in first, and can click the sign-in link on that page to get signed in.
 1. In the `Models` folder add a new class called `TodoItem.cs`.  Copy the implementation of TodoItem from this sample into the class.
+1. 1. In the `Models` folder add a new class called `FileCache.cs`.  Copy the implementation of FileCache from this sample into the class.
 1. Add a new **MVC 5 Controller - Empty** named `TodoListController` to the project.  Copy the implementation of the controller from the sample.  Remember to include the [Authorize] attribute on the class definition.
 1. In `Views` --> `TodoList` create a new view, `Index.cshtml`, and copy the implementation from this sample.
 1. In `Web.config`, in `<appSettings>`, create keys for `ida:ClientId`, `ida:AppKey`, `ida:Tenant`, `ida:AADInstance`, `ida:RedirectUri`, `ida:TodoListResourceId`, and `ida:TodoListBaseAddress`, and set the values accordingly.  For the public Azure AD, the value of `ida:AADInstance` is `https://login.microsoftonline.com/{0}`.

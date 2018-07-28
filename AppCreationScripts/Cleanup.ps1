@@ -1,4 +1,10 @@
-param([Parameter(Mandatory=$false)][PSCredential]$Credential=$null, [Parameter(Mandatory=$false)][string]$TenantId)
+[CmdletBinding()]
+param(
+    [Parameter(HelpMessage='Tenant ID (This is a GUID which represents the "Directory ID" of the AzureAD tenant into which you want to create the apps')]
+    [PSCredential] $Credential,
+    [string] $tenantId
+)
+
 Import-Module AzureAD
 $ErrorActionPreference = 'Stop'
 
@@ -8,15 +14,7 @@ Function Cleanup
 .Description
 This function removes the Azure AD applications for the sample. These applications were created by the Configure.ps1 script
 #>
-   [CmdletBinding()]
-    param(
-        [Parameter(HelpMessage='Tenant ID (This is a GUID which represents the "Directory ID" of the AzureAD tenant into which you want to create the apps')]
-        [PSCredential] $Credential,
-        [string] $tenantId
-    )
 
-   process
-   {
     # $tenantId is the Active Directory Tenant. This is a GUID which represents the "Directory ID" of the AzureAD tenant 
     # into which you want to create the apps. Look it up in the Azure portal in the "Properties" of the Azure AD. 
 
@@ -56,15 +54,14 @@ This function removes the Azure AD applications for the sample. These applicatio
         Write-Host "Removed."
     }
 
-    Write-Host "Removing 'client' (TodoListWebApp-AppIdentity) if needed"
-    $app=Get-AzureADApplication -Filter "DisplayName eq 'TodoListWebApp-AppIdentity'"  
+    Write-Host "Removing 'WebApp' (TodoListWebApp-AppIdentity) if needed"
+    $app=Get-AzureADApplication -Filter "identifierUris/any(uri:uri eq 'https://$tenantName/TodoListWebApp-AppIdentity')"  
     if ($app)
     {
         Remove-AzureADApplication -ObjectId $app.ObjectId
         Write-Host "Removed."
     }
 
-   }
 }
 
 Cleanup -Credential $Credential -tenantId $TenantId

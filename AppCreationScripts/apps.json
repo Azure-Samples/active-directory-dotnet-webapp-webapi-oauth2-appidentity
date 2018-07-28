@@ -2,7 +2,7 @@
   "Sample": {
     "Title": "Calling a web api using an application identity",
     "Level": 300,
-    "Client": ".NET 4.5 Web App (MVC)",
+    "Client": ".NET 4.6.1 Web App (MVC)",
     "Service": "ASP.NET Web API"
   },
 
@@ -21,6 +21,7 @@
       "Name": "TodoListWebApp-AppIdentity",
       "IsPublicClient": false,
       "HomePage": "https://localhost:44322/",
+      "ReplyUrls": "https://localhost:44322/",
       "PasswordCredentials": "Auto",
       "RequiredResourcesAccess": [
         {
@@ -41,7 +42,7 @@
     {
       "App": "service",
       "SettingKind": "XML",
-      "SettingFile": "\\..\\active-directory-dotnet-webapp-webapi-oauth2-appidentity\\TodoListService\\Web.Config",
+      "SettingFile": "\\..\\TodoListService\\Web.Config",
       "Mappings": [
         {
           "key": "ida:Tenant",
@@ -59,9 +60,9 @@
     },
 
     {
-      "App": "client",
+      "App": "WebApp",
       "SettingKind": "XML",
-      "SettingFile": "\\..\\active-directory-dotnet-webapp-webapi-oauth2-appidentity\\TodoListWebApp\\Web.Config",
+      "SettingFile": "\\..\\TodoListWebApp\\Web.Config",
       "Mappings": [
         {
           "key": "ida:Tenant",

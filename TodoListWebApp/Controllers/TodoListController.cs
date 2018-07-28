@@ -45,7 +45,7 @@ namespace TodoListWebApp.Controllers
     {
         //
         // The Client ID is used by the application to uniquely identify itself to Azure AD.
-        // The App Key is a credential used by the application to authenticate to Azure AD.
+        // The AppKey is a credential used to authenticate the application to Azure AD.  Azure AD supports password and certificate credentials.
         // The Tenant is the name of the Azure AD tenant in which this application is registered.
         // The AAD Instance is the instance of Azure, for example public Azure or Azure China.
         // The Authority is the sign-in URL of the tenant.
@@ -65,7 +65,7 @@ namespace TodoListWebApp.Controllers
         private static string todoListBaseAddress = ConfigurationManager.AppSettings["todo:TodoListBaseAddress"];
 
         private static HttpClient httpClient = new HttpClient();
-        private static AuthenticationContext authContext = new AuthenticationContext(authority);
+        private static AuthenticationContext authContext = new AuthenticationContext(authority, new FileCache());
         private static ClientCredential clientCredential = new ClientCredential(clientId, appKey);
 
         private const string TenantIdClaimType = "http://schemas.microsoft.com/identity/claims/tenantid";
