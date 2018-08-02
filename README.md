@@ -14,7 +14,9 @@ endpoint: AAD V1
 
 ### Overview
 
-In contrast to the WebApp-WebAPI-OpenIDConnect-DotNet sample, this sample shows how to build an MVC web application that uses Azure AD for sign-in using OpenID Connect, and then calls a web API under the application's identity (instead of the user's identity) using tokens obtained via OAuth 2.0. This sample uses the OpenID Connect ASP.Net OWIN middleware and ADAL.Net.
+In contrast to the WebApp-WebAPI-OpenIDConnect-DotNet sample, this sample shows how to build an MVC web application that uses Azure AD for sign-in using OpenID Connect, and then calls a web API under the application's identity (instead of the user's identity) using tokens obtained via OAuth 2.0. It is an example of the trusted sub-system model, where the web API trusts the web application to have authenticated the user, and receives no direct evidence from Azure AD that the user was authenticated. 
+
+This sample uses the OpenID Connect ASP.Net OWIN middleware to sign-in the user in the Web App, and ADAL.Net to acquire a token for the Web API. It also the Jwt OWIN middleware on the Web API to validate the token received from the Web App.
 
 For more information about how the protocols work in this scenario and other scenarios, see [Authentication Scenarios for Azure AD](http://go.microsoft.com/fwlink/?LinkId=394414).
 
