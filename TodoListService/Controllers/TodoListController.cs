@@ -1,32 +1,37 @@
-﻿//----------------------------------------------------------------------------------------------
-//    Copyright 2014 Microsoft Corporation
-//
-//    Licensed under the Apache License, Version 2.0 (the "License");
-//    you may not use this file except in compliance with the License.
-//    You may obtain a copy of the License at
-//
-//      http://www.apache.org/licenses/LICENSE-2.0
-//
-//    Unless required by applicable law or agreed to in writing, software
-//    distributed under the License is distributed on an "AS IS" BASIS,
-//    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-//    See the License for the specific language governing permissions and
-//    limitations under the License.
-//----------------------------------------------------------------------------------------------
+﻿/*
+ The MIT License (MIT)
 
-using System;
+Copyright (c) 2015 Microsoft Corporation
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+*/
+
+using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Web.Http;
-
-// The following using statements were added for this sample.
-using System.Collections.Concurrent;
-using TodoListService.Models;
 using System.Security.Claims;
-using System.Configuration;
 using System.Web;
+using System.Web.Http;
+using TodoListService.Models;
 
 namespace TodoListService.Controllers
 {
@@ -36,12 +41,26 @@ namespace TodoListService.Controllers
         //
         // To Do items list for all users.  Since the list is stored in memory, it will go away if the service is cycled.
         //
-        static ConcurrentBag<TodoItem> todoBag = new ConcurrentBag<TodoItem>();
+        private static ConcurrentBag<TodoItem> todoBag = new ConcurrentBag<TodoItem>();
+
         private static string trustedCallerClientId = ConfigurationManager.AppSettings["todo:TrustedCallerClientId"];
 
         // GET api/todolist
         public IEnumerable<TodoItem> Get()
         {
+            //
+            // The Scope claim tells you what permissions the client application has in the service.
+            // In this case we look for a scope value of user_impersonation, or full access to the service as the user.
+            //
+            Claim scopeClaim = ClaimsPrincipal.Current.FindFirst("http://schemas.microsoft.com/identity/claims/scope");
+            if (scopeClaim != null)
+            {
+                if (scopeClaim.Value != "user_impersonation")
+                {
+                    throw new HttpResponseException(new HttpResponseMessage { StatusCode = HttpStatusCode.Unauthorized, ReasonPhrase = "The Scope claim does not contain 'user_impersonation' or scope claim not found" });
+                }
+            }
+
             //
             // If the Owner ID parameter has been set, the caller is trying the trusted sub-system pattern.
             // Verify the caller is trusted, then return the To Do list for the specified Owner ID.
@@ -59,20 +78,7 @@ namespace TodoListService.Controllers
                 else
                 {
                     throw new HttpResponseException(
-                        new HttpResponseMessage { StatusCode = HttpStatusCode.Unauthorized, ReasonPhrase = "Only trusted callers can return any user's To Do List.  Caller's OID:" + currentCallerClientId });
-                }
-            }
-
-            //
-            // The Scope claim tells you what permissions the client application has in the service.
-            // In this case we look for a scope value of user_impersonation, or full access to the service as the user.
-            //
-            Claim scopeClaim = ClaimsPrincipal.Current.FindFirst("http://schemas.microsoft.com/identity/claims/scope");
-            if (scopeClaim != null)
-            {
-                if (scopeClaim.Value != "user_impersonation")
-                {
-                    throw new HttpResponseException(new HttpResponseMessage { StatusCode = HttpStatusCode.Unauthorized, ReasonPhrase = "The Scope claim does not contain 'user_impersonation' or scope claim not found" });
+                        new HttpResponseMessage { StatusCode = HttpStatusCode.Unauthorized, ReasonPhrase = "Only trusted callers can return any user's To-Do List.  Caller's OID:" + currentCallerClientId });
                 }
             }
 
@@ -87,6 +93,15 @@ namespace TodoListService.Controllers
         // POST api/todolist
         public void Post(TodoItem todo)
         {
+            Claim scopeClaim = ClaimsPrincipal.Current.FindFirst("http://schemas.microsoft.com/identity/claims/scope");
+            if (scopeClaim != null)
+            {
+                if (scopeClaim.Value != "user_impersonation")
+                {
+                    throw new HttpResponseException(new HttpResponseMessage { StatusCode = HttpStatusCode.Unauthorized, ReasonPhrase = "The Scope claim does not contain 'user_impersonation' or scope claim not found" });
+                }
+            }
+
             //
             // If the caller is the trusted caller, then add the To Do item to owner's To Do list as specified in the posted item.
             //
@@ -98,15 +113,6 @@ namespace TodoListService.Controllers
                 {
                     todoBag.Add(new TodoItem { Title = todo.Title, Owner = todo.Owner });
                     return;
-                }
-            }
-
-            Claim scopeClaim = ClaimsPrincipal.Current.FindFirst("http://schemas.microsoft.com/identity/claims/scope");
-            if (scopeClaim != null)
-            {
-                if (scopeClaim.Value != "user_impersonation")
-                {
-                    throw new HttpResponseException(new HttpResponseMessage { StatusCode = HttpStatusCode.Unauthorized, ReasonPhrase = "The Scope claim does not contain 'user_impersonation' or scope claim not found" });
                 }
             }
 
