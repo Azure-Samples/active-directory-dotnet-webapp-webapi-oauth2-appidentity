@@ -65,7 +65,7 @@ namespace TodoListWebApp.Controllers
         private static string todoListBaseAddress = ConfigurationManager.AppSettings["todo:TodoListBaseAddress"];
 
         private static HttpClient httpClient = new HttpClient();
-        private static AuthenticationContext authContext = new AuthenticationContext(authority, new FileCache());
+        private static AuthenticationContext authContext = new AuthenticationContext(authority /*, new FileCache()*/);
         private static ClientCredential clientCredential = new ClientCredential(clientId, appKey);
 
         private const string TenantIdClaimType = "http://schemas.microsoft.com/identity/claims/tenantid";
