@@ -10,7 +10,7 @@ endpoint: AAD V1
 
 # Calling a web api using an application identity
 
-![Build badge](https://identitydivision.visualstudio.com/IDDP/_apis/build/status/AAD%20Samples/.NET%20client%20samples/CI%20of%20Azure-Samples%20--%20active-directory-dotnet-webapp-webapi-oauth2-appidentity)
+[![Build status](https://identitydivision.visualstudio.com/IDDP/_apis/build/status/AAD%20Samples/.NET%20client%20samples/CI%20of%20Azure-Samples%20--%20active-directory-dotnet-webapp-webapi-oauth2-appidentity)](https://identitydivision.visualstudio.com/IDDP/_build/latest?definitionId=630)
 
 ### Overview
 
