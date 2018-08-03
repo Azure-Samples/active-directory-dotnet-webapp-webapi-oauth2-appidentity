@@ -10,7 +10,7 @@ endpoint: AAD V1
 
 # Calling a web api using an application identity
 
-![Build badge](https://identitydivision.visualstudio.com/_apis/public/build/definitions/a7934fdd-dcde-4492-a406-7fad6ac00e17/630/badge)
+[![Build badge](https://identitydivision.visualstudio.com/_apis/public/build/definitions/a7934fdd-dcde-4492-a406-7fad6ac00e17/630/badge)](https://identitydivision.visualstudio.com/IDDP/_build/latest?definitionId=630)
 
 ### Overview
 
