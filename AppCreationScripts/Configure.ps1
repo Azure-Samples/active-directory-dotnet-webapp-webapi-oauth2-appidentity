@@ -168,7 +168,7 @@ Function ConfigureApplications
    $serviceAadApplication = New-AzureADApplication -DisplayName "TodoListService-AppIdentity" `
                                                    -HomePage "https://localhost:44321/" `
                                                    -IdentifierUris "https://$tenantName/TodoListService-AppIdentity" `
-           -RequiredResourceAccess $perm `
+                                                   -RequiredResourceAccess $perm `
                                                    -PublicClient $False
 
 
@@ -198,7 +198,7 @@ Function ConfigureApplications
                                                   -ReplyUrls "https://localhost:44322/" `
                                                   -IdentifierUris "https://$tenantName/TodoListWebApp-AppIdentity" `
                                                   -PasswordCredentials $key `
-           -RequiredResourceAccess $perm `
+                                                  -RequiredResourceAccess $perm `
                                                   -PublicClient $False
 
 
