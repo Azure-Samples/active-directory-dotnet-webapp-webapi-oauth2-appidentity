@@ -29,6 +29,12 @@ This sample demonstrates a .NET 4.6.1 Web App (MVC) application calling a ASP.NE
 
 > Looking for previous versions of this code sample? Check out the tags on the [releases](../../releases) GitHub page.
 
+> There's a newer version of this sample! Check it out: <https://github.com/azure-samples/ms-identity-aspnet-daemon-webapp>
+>
+> This newer sample takes advantage of the Microsoft identity platform (formerly Azure AD v2.0).
+>
+> While still in public preview, every component is supported in production environments
+
 ## How to run this sample
 
 To run this sample, you'll need:
