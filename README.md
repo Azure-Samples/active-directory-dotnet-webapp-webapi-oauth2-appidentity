@@ -12,6 +12,12 @@ endpoint: AAD V1
 
 [![Build badge](https://identitydivision.visualstudio.com/_apis/public/build/definitions/a7934fdd-dcde-4492-a406-7fad6ac00e17/630/badge)](https://identitydivision.visualstudio.com/IDDP/_build/latest?definitionId=630)
 
+> There's a newer version of this sample! Check it out: <https://github.com/azure-samples/ms-identity-aspnet-daemon-webapp>
+>
+> This newer sample takes advantage of the Microsoft identity platform (formerly Azure AD v2.0).
+>
+> While still in public preview, every component is supported in production environments
+
 ### Overview
 
 In contrast to the WebApp-WebAPI-OpenIDConnect-DotNet sample, this sample shows how to build an MVC web application that uses Azure AD for sign-in using OpenID Connect, and then calls a web API under the application's identity (instead of the user's identity) using tokens obtained via OAuth 2.0. It is an example of the trusted sub-system model, where the web API trusts the web application to have authenticated the user, and receives no direct evidence from Azure AD that the user was authenticated. 
@@ -26,8 +32,6 @@ This sample demonstrates a .NET 4.6.1 Web App (MVC) application calling a ASP.NE
 2. The access token is used as a bearer token to authenticate the user when calling the ASP.NET Web API.
 
 ![Overview](./ReadmeFiles/topology.png)
-
-> Looking for previous versions of this code sample? Check out the tags on the [releases](../../releases) GitHub page.
 
 ## How to run this sample
 
